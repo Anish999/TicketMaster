@@ -8,6 +8,10 @@ var tickets =[ {id:1, name: "Anish", assignee_id:1, status:"open"},
                 {id:3, name: "Bikash", assignee_id:1, status:"open"},
                 {id:4, name: "Mosh", assignee_id:1, status:"open"}]
 
+app.get('/', (req, res) => {
+    res.send(`Welcome to Shady's World`);
+});
+
 app.get('/rest/list', (req, res) => {
     res.send(tickets);
 });
