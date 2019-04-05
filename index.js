@@ -16,13 +16,13 @@ app.get('/rest/list', (req, res) => {
     res.send(tickets);
 });
 
-app.get('/rest/list/:id', (req, res)=>{
+app.get('/rest/ticket/:id', (req, res)=>{
     const t = tickets.find(c => c.id === parseInt(req.params.id))
     if(!t) res.status(404).send('Ticket does not exist.');
     res.send(t)
 });
 
-app.post('/rest/list', (req, res) => {
+app.post('/rest/ticket', (req, res) => {
     if(!req.body.name || !req.body.status || !req.body.assignee_id){
         req.status(400).send('Please enter all the properties');
         return;
