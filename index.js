@@ -1,7 +1,27 @@
 const express = require ('express');
+var bodyParser = require("body-parser");
+var mongodb = require("mongodb");
 const app = express();
 
-app.use(express.json());
+
+app.use(bodyParser.json());
+
+var db;
+
+mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:3000/test", function(err, client){
+    if (err) {
+        console.log(err);
+        process.exit(1);
+    }
+
+    db = client.db();
+    console.log("Database connection ready");
+
+    var server = app.listen(process.env.PORT || 8080, function(){
+        var port = server.address().port;
+        console.log("App now running on port", port);
+    });
+});
 
 var tickets =[ {id:1, name: "Anish", assignee_id:1, status:"open"},
                 {id:2, name: "Krishna", assignee_id:1, status:"open"},
