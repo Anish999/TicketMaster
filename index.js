@@ -51,7 +51,7 @@ app.get('/rest/ticket/:id', (req, res)=>{
     // const t = tickets.find(c => c.id === parseInt(req.params.id))
     // if(!t) res.status(404).send('Ticket does not exist.');
     // res.send(t)
-    db.collection(TICKETS_COLLECTION).findOne({assignee_id: req.params.id}, function(err, doc){
+    db.collection(TICKETS_COLLECTION).findOne({id: req.params.id}, function(err, doc){
         if(err){
             handleError(res, err.message, "Failed to get ticket");
         }
@@ -60,6 +60,30 @@ app.get('/rest/ticket/:id', (req, res)=>{
         }
     });
 });
+
+app.put("/rest/ticket/:id", function(req, res) {
+
+    db.collection(TICKETS_COLLECTION).findOne({id: req.params.id}, function(err, doc){
+        if (doc == null){
+            res.send("No tickets with such Id exists");
+        }
+        else {
+            db.collection(TICKETS_COLLECTION).updateOne({id: req.params.id}, { $set: req.body});
+            res.status(200).json(req.body);
+        }
+    });
+  
+});
+
+  app.delete("/rest/ticket/:id", function(req, res) {
+    db.collection(TICKETS_COLLECTION).deleteOne({id: req.params.id}, function(err, result) {
+      if (err) {
+        handleError(res, err.message, "Failed to delete contact");
+      } else {
+        res.status(200).json(req.body);
+      }
+    })
+  });
 
 app.post('/rest/ticket', (req, res) => {
     var newTicket = req.body;
@@ -101,5 +125,3 @@ function handleError(res, reason, message, code) {
     console.log("ERROR: " + reason);
     res.status(code || 500).json({"error": message});
   }
-  
-
