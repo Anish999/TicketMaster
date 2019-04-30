@@ -32,7 +32,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb+srv://Anish999:A
 //                 {id:4, name: "Mosh", assignee_id:1, status:"open"}]
 
 app.get('/', (req, res) => {
-    res.send(`Welcome to Shady's World`);
+    res.send(`Welcome to Shady's World.`);
 });
 
 app.get('/rest/list', (req, res) => {
@@ -53,7 +53,7 @@ app.get('/rest/ticket/:id', (req, res)=>{
     // res.send(t)
     db.collection(TICKETS_COLLECTION).findOne({id: req.params.id}, function(err, doc){
         if(err){
-            handleError(res, err.message, "Failed to get ticket");
+            handleError(res, err.message, "Failed to get ticket.");
         }
         else{
             res.status(200).json(doc);
